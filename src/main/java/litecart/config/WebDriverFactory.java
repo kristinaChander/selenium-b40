@@ -5,18 +5,21 @@ import io.github.bonigarcia.wdm.config.DriverManagerType;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
+import org.springframework.stereotype.Component;
 import org.springframework.util.ObjectUtils;
 
-@Configuration
-public class WebDriverConfig {
+@Component
+public class WebDriverFactory {
 
     private static final String BROWSER_TYPE_FIREFOX_NIGHTLY = "firefox-nightly";
 
-    @Bean
-    public WebDriver driver(@Value("${browser-type:chrome}") String browserType,
-                            @Value("${firefox-binary-path:}") String firefoxBinaryPath) {
+    @Value("${browser-type:chrome}")
+    private String browserType;
+
+    @Value("${firefox-binary-path:}")
+    private String firefoxBinaryPath;
+
+    public WebDriver createDriver() {
         WebDriverManager webDriverManager = getWebDriverManager(browserType);
         if (!ObjectUtils.isEmpty(firefoxBinaryPath)) {
             FirefoxOptions firefoxOptions = new FirefoxOptions();

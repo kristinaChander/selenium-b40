@@ -2,9 +2,7 @@ package litecart.pages;
 
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.springframework.stereotype.Component;
 
-@Component
 public class LoginPage extends BasePage {
     @FindBy(xpath = "//input[@name='username']")
     private WebElement userNameField;

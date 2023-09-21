@@ -2,21 +2,25 @@ package litecart;
 
 import litecart.pages.HomeAdminPage;
 import litecart.pages.LoginPage;
-import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 
+import static litecart.config.WebDriverContext.getWebDriver;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class MenuItemsTest extends BaseTest {
-    @Autowired
     private LoginPage loginPage;
-    @Autowired
     private HomeAdminPage homeAdminPage;
+
+    @BeforeEach
+    void setUp() {
+        loginPage = new LoginPage();
+        homeAdminPage = new HomeAdminPage();
+    }
 
     @Test
     void isAllMenuItemsOpen() {
-        driver.get("http://localhost:8080/litecart/admin");
+        getWebDriver().get("http://localhost:8080/litecart/admin");
         loginPage.setUserName("admin");
         loginPage.setPassword("admin");
         loginPage.clickLoginBtn();
@@ -34,11 +38,5 @@ class MenuItemsTest extends BaseTest {
             }
         }
 
-    }
-
-
-    @AfterEach
-    public void tearDown() {
-        driver.quit();
     }
 }
