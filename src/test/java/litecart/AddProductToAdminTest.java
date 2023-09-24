@@ -4,13 +4,11 @@ import litecart.pages.CatalogPage;
 import litecart.pages.HomeAdminPage;
 import litecart.pages.LoginPage;
 import litecart.pages.NewProductPage;
-import litecart.utils.FileUtils;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 
-import java.io.File;
 import java.util.Arrays;
 
 import static litecart.config.WebDriverContext.getWebDriver;
@@ -59,7 +57,7 @@ public class AddProductToAdminTest extends BaseTest {
     }
 
     @Test
-    void AddNewProductTest() {
+    void addNewProductTest() {
         getWebDriver().get("http://localhost:8080/litecart/admin");
         loginPage.setUserName("admin");
         loginPage.setPassword("admin");
