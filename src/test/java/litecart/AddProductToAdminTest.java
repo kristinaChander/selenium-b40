@@ -59,7 +59,7 @@ public class AddProductToAdminTest extends BaseTest {
     }
 
     @Test
-    void loginToAdminTest() {
+    void AddNewProductTest() {
         getWebDriver().get("http://localhost:8080/litecart/admin");
         loginPage.setUserName("admin");
         loginPage.setPassword("admin");
