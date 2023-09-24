@@ -1,15 +1,20 @@
 package litecart;
 
-import litecart.pages.RubberDucksPage;
+import litecart.pages.RubberDucksMainPage;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import static litecart.config.WebDriverContext.getWebDriver;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class LabelsTest extends BaseTest {
-    @Autowired
-    private RubberDucksPage ducksPage;
+
+    private RubberDucksMainPage ducksPage;
+
+    @BeforeEach
+    void setUp() {
+        ducksPage = new RubberDucksMainPage();
+    }
 
     @Test
     void isEachDuckHasLabelTest() {

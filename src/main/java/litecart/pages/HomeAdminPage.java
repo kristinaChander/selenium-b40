@@ -1,5 +1,6 @@
 package litecart.pages;
 
+import litecart.utils.AttributeUtils;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.springframework.stereotype.Component;
@@ -38,5 +39,15 @@ public class HomeAdminPage extends BasePage {
 
     public boolean isMenuItemsDisplayed() {
         return menuItemsList.stream().allMatch(s -> s.isDisplayed());
+    }
+
+    public void selectParentItemByName(String name) {
+        for (WebElement webElement : menuItemsList) {
+            String itemName = AttributeUtils.getTextContent(webElement).trim();
+            if (itemName.equals(name)) {
+                webElement.click();
+                return;
+            }
+        }
     }
 }

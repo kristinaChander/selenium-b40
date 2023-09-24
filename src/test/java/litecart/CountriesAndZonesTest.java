@@ -7,7 +7,6 @@ import org.openqa.selenium.WebElement;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.IntStream;
 
 import static litecart.config.WebDriverContext.getWebDriver;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -27,29 +26,30 @@ class CountriesAndZonesTest extends BaseTest {
         selectedCountryPage = new SelectedCountryPage();
         geoZonesPage = new GeoZonesPage();
         editGeoZonesPage = new EditGeoZonesPage();
+        getWebDriver().get("http://localhost:8080/litecart/admin");
+        loginPage.setUserName("admin");
+        loginPage.setPassword("admin");
+        loginPage.clickLoginBtn();
     }
 
     @Test
     void isCountriesAlphabeticOrderKeptTest() {
-        login();
         getWebDriver().get("http://localhost:8080/litecart/admin/?app=countries&doc=countries");
         List<String> countriesFromPage = countriesPage.getCountriesList();
         List<String> sortedCountries = getSortedNames(countriesFromPage);
         assertEquals(countriesFromPage, sortedCountries, "Countries are not listed in alphabetical order");
 
-        IntStream.range(0, countriesFromPage.size())
-                .map(countriesPage::getZoneNumber)
-                .filter(zoneNumber -> zoneNumber != 0)
-                .forEach(this::checkZonesOnCountryPage);
+        for (int i = 0; i < countriesFromPage.size(); i++) {
+            if (countriesPage.getZoneNumber(i) != 0) {
+                countriesPage.selectCountry(i);
+                List<String> zonesFromPage = selectedCountryPage.getZoneNames();
+                List<String> sortedZones = getSortedNames(zonesFromPage);
+                assertEquals(zonesFromPage, sortedZones, "Zones are  not in alphabetic order");
+                getWebDriver().navigate().back();
+            }
+        }
     }
 
-    private void checkZonesOnCountryPage(Integer countriesToClickIndex) {
-        countriesPage.selectCountry(countriesToClickIndex);
-        List<String> zonesFromPage = selectedCountryPage.getZoneNames();
-        List<String> sortedZones = getSortedNames(zonesFromPage);
-        assertEquals(zonesFromPage, sortedZones, "Zones are  not in alphabetic order");
-        getWebDriver().navigate().back();
-    }
 
     @Test
     void isZonesAlphabeticOrderKeptTest() {
@@ -62,14 +62,6 @@ class CountriesAndZonesTest extends BaseTest {
             assertEquals(geoZoneNames, sortedZones, "Zones Are not in alphabetical order");
             getWebDriver().navigate().back();
         }
-    }
-
-    private void login() {
-        login();
-        getWebDriver().get("http://localhost:8080/litecart/admin");
-        loginPage.setUserName("admin");
-        loginPage.setPassword("admin");
-        loginPage.clickLoginBtn();
     }
 
     private List<String> getSortedNames(List<String> names) {
