@@ -21,6 +21,8 @@ public class RubberDucksMainPage extends BasePage {
     private WebElement newCustomerLink;
     @FindBy(xpath = "//a[text()='Logout']")
     private WebElement logoutBtn;
+    @FindBy(css = "#box-most-popular .product:nth-child(1)")
+    private WebElement firstItem;
 
     public boolean checkEachDuckHasOneLabel() {
         return duckCards.stream()
@@ -43,5 +45,9 @@ public class RubberDucksMainPage extends BasePage {
 
     public void logout() {
         logoutBtn.click();
+    }
+
+    public void selectItemFromGoodsList() {
+        firstItem.click();
     }
 }

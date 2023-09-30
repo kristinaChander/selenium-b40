@@ -1,7 +1,14 @@
 package litecart.pages;
 
-import com.github.javafaker.*;
+import com.github.javafaker.Address;
+import com.github.javafaker.FunnyName;
+import com.github.javafaker.Internet;
+import com.github.javafaker.Name;
+import com.github.javafaker.PhoneNumber;
+import litecart.config.WebDriverContext;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.Select;
 import org.springframework.stereotype.Component;
@@ -20,6 +27,9 @@ public class CreateAccountPage extends BasePage {
     private WebElement postCodeField;
     @FindBy(css = "select[name='country_code']")
     private WebElement countryField;
+
+    @FindBy(css = ".select2-selection__arrow")
+    private WebElement countryFieldArrow;
     @FindBy(css = "input[name='city']")
     private WebElement cityField;
     @FindBy(css = "select[name='zone_code']")
@@ -34,6 +44,8 @@ public class CreateAccountPage extends BasePage {
     private WebElement confirmPasswordField;
     @FindBy(css = "button[type='submit']")
     private WebElement createAccountButton;
+    @FindBy(css = ".select2-search__field")
+    private WebElement countrySearch;
 
     public void setFirstName(Name name) {
         firstNameField.sendKeys(name.firstName());
@@ -48,12 +60,14 @@ public class CreateAccountPage extends BasePage {
     }
 
     public void setPostCode(Address address) {
-        postCodeField.sendKeys(address.zipCode().substring(0,5));
+        postCodeField.sendKeys(address.zipCode().substring(0, 5));
     }
 
     public void selectUnitedStates() {
-        Select countryList = new Select(countryField);
-        countryList.selectByVisibleText("United States");
+        countryFieldArrow.click();
+        countrySearch.sendKeys("United States");
+        Actions actions = new Actions(WebDriverContext.getWebDriver());
+        actions.keyDown(Keys.ENTER).perform();
     }
 
     public void setCity(Address address) {
