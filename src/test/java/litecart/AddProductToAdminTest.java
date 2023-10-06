@@ -4,6 +4,7 @@ import litecart.pages.CatalogPage;
 import litecart.pages.HomeAdminPage;
 import litecart.pages.LoginPage;
 import litecart.pages.NewProductPage;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Value;
@@ -65,7 +66,8 @@ public class AddProductToAdminTest extends BaseTest {
         homeAdminPage.selectParentItemByName(CATALOG);
         catalogPage.clickAddNewProduct();
         newProductPage.setItemEnabled();
-        newProductPage.setName(PRODUCT_NAME);
+        String productName = PRODUCT_NAME + RandomStringUtils.randomAlphanumeric(6);
+        newProductPage.setName(productName);
         newProductPage.setCode(PRODUCT_CODE);
         newProductPage.setCategory(CATEGORY);
         newProductPage.setDefaultCategory(CATEGORY);
@@ -90,7 +92,7 @@ public class AddProductToAdminTest extends BaseTest {
         newProductPage.setPriceUSD(PRICE_USD);
         newProductPage.setPriceEUR(PRICE_EUR);
         newProductPage.save();
-        newProductPage.clickProductName(PRODUCT_NAME);
-        assertEquals(PRODUCT_NAME, newProductPage.getProductName(), "Product Name is incorrect");
+        newProductPage.clickProductName(productName);
+        assertEquals(productName, newProductPage.getProductName(), "Product Name is incorrect");
     }
 }

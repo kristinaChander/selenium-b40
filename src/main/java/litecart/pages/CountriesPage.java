@@ -12,6 +12,8 @@ public class CountriesPage extends BasePage {
 
     @FindBy(css = "[name=countries_form] tr td:nth-child(6)")
     private List<WebElement> zones;
+    @FindBy(css = "[title='Edit']")
+    private List<WebElement> editCountry;
 
 
     public List<String> getCountriesList() {
@@ -27,5 +29,9 @@ public class CountriesPage extends BasePage {
 
     public void selectCountry(int index) {
         countries.get(index).click();
+    }
+
+    public void clickEditCountry(int editIndex) {
+        editCountry.get(editIndex).click();
     }
 }
